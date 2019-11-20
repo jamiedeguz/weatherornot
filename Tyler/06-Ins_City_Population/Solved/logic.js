@@ -12,6 +12,10 @@ L.tileLayer("https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={
 }).addTo(myMap);
 
 
+function radius(radius) {
+  return radius * 2;
+}
+
 var cities = [
   {'State': 'Alabama',
   'location': [32.859482801854035, -86.84384983545773],
@@ -171,13 +175,13 @@ var cities = [
 
 // Loop through the cities array and create one marker for each city object
 for (var i = 0; i < cities.length; i++) {
+  // radius = cities[i].income
   L.circle(cities[i].location, {
     fillOpacity: 0.75,
     color: "white",
     fillColor: "purple",
     // Setting our circle's radius equal to the output of our markerSize function
     // This will make our marker's size proportionate to its population
-    radius: cities[i].income * 2
-  }).addTo(myMap);
-  //.bindPopup("<h1>" + cities[i].State + "</h1> <hr> <h3>Population: " + cities[i].population + "</h3>").addTo(myMap);
+    radius: radius(cities[i].income)
+  }).bindPopup("<h1>" + cities[i].State + "</h1> <hr> <h3>House hold Income: " + cities[i].income + "</h3><p>" + radius + "</p>" ).addTo(myMap);
 }

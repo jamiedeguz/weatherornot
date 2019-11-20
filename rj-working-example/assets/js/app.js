@@ -118,9 +118,10 @@ function updateToolTip(chosenXAxis, chosenYAxis, circlesGroup) {
     .attr("class", "tooltip")
     .offset([80, -60])
     .style("background-color", "white")
-    .html(function(d) {
-      return (`${d.city}<br>${label} ${d[chosenXAxis]} <br> ${yLabel} ${d[chosenYAxis]}`);
+    .html(function(hairData) {
+      return (`${hairData.city}<br>${label} ${hairData[chosenXAxis]} <br> ${yLabel} ${hairData[chosenYAxis]}`);
     });
+
 
   circlesGroup.call(toolTip);
 
@@ -141,7 +142,7 @@ d3.csv("assets/data/city_master_wallethub.csv", function(err, hairData) {
  
   // parse data
   hairData.forEach(function(data) {
-    data.city = +data.city
+    // data.city = +data.city
     data.recreation_score = +data.recreation_score;
     data.rec_entertainment = +data.rec_entertainment;
     data.costs = +data.costs;

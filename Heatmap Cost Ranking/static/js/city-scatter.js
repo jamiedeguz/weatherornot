@@ -25,7 +25,7 @@ var chartGroup = svg.append("g")
   .attr("transform", `translate(${margin.left}, ${margin.top})`);
 
 // Initial Params
-var chosenXAxis = "weather";
+var chosenXAxis = "costs";
 var chosenYAxis = "hap_entertainment";
 
 
@@ -86,7 +86,29 @@ function renderCircles(circlesGroup,
     circlesGroup.transition()
     .duration(800)
     .attr("cx", d => newXScale(d[chosenXAxis]))
-    .attr("cy", d => newYScale(d[chosenYAxis]));
+    .attr("cy", d => newYScale(d[chosenYAxis]))
+    .attr("fill", color = function (d) {
+      xvalue = d[chosenXAxis]
+      yvalue = d[chosenYAxis]
+      product = xvalue * yvalue
+      console.log(product)
+      if (product > 6400) {
+       color = "maroon"
+      } 
+      else if (product >= 3600 && product <=6400) {
+        color = "red"
+      } 
+      else if (product>= 1600 && product <=3600) {
+        color = "orange"
+      }
+      else if (product>= 400 && product <=1600) {
+        color = "yellow"
+      }
+      else {
+        color = "green"
+      }
+      return(color)
+  })
 
   return circlesGroup;
 }
@@ -111,7 +133,7 @@ function updateToolTip(chosenXAxis, chosenYAxis, circlesGroup) {
     var yLabel = "Health Ranking";
   }
   else if (chosenYAxis === "community_environment") {
-    var yLabel = "Community Environmnet Ranking";
+    var yLabel = "Community Environment Ranking";
   }
 
   var toolTip = d3.tip()
@@ -184,14 +206,14 @@ d3.csv("static/js/city_master_wallethub.csv", function(err, hairData) {
     .call(leftAxis);
 
   // append initial circles
+  var color = "blue"
   var circlesGroup = chartGroup.selectAll("circle")
     .data(hairData)
     .enter()
     .append("circle")
     .attr("cx", d => xLinearScale(d[chosenXAxis]))
-    .attr("cy", d => yLinearScale(d[chosenYAxis]))
+    .attr("cy", d => yLinearScale(d[chosenYAxis]) )
     .attr("r", 20)
-    .attr("fill", "green")
     .attr("opacity", ".5")
 
   // Create group for  twho x- axis and y-axis labels
@@ -204,14 +226,14 @@ d3.csv("static/js/city_master_wallethub.csv", function(err, hairData) {
     .attr("x", 0)
     .attr("y", 20)
     .attr("value", "weather") // value to grab for event listener
-    .classed("active", true)
+    .classed("inactive", true)
     .text("Weather Ranking");
 
   var costsLabel = labelXGroup.append("text")
     .attr("x", 0)
     .attr("y", 40)
     .attr("value", "costs") // value to grab for event listener
-    .classed("inactive", true)
+    .classed("active", true)
     .text("Costs Ranking");
 
   var parksLabel = labelXGroup.append("text")
@@ -226,14 +248,14 @@ d3.csv("static/js/city_master_wallethub.csv", function(err, hairData) {
     .attr("y", 0 - margin.left +40)
     .attr("x", 0 - (height / 2))
     .attr("value", "health_rank") // value to grab for event listener
-    .classed("active", true)
+    .classed("inactive", true)
     .text("Health Ranking");
 
   var happinessLabel = yLabelGroup.append("text")
     .attr("y", 0 - margin.left +20)
     .attr("x", 0 - (height / 2))
     .attr("value", "hap_entertainment") // value to grab for event listener
-    .classed("inactive", true)
+    .classed("active", true)
     .text("Happiness Ranking");
 
   var communityLabel = yLabelGroup.append("text")

@@ -1,5 +1,5 @@
-var myMap = L.map("map", {
-  center: [39.8283, -98.5795],
+var myMap3 = L.map("map3", {
+  center: [36.8283, -98.5795],
   zoom: 3
 });
 
@@ -9,26 +9,26 @@ L.tileLayer("https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={
   maxZoom: 18,
   id: "mapbox.streets",
   accessToken: API_KEY
-}).addTo(myMap);
+}).addTo(myMap3);
 
-d3.json("static/js/city_master_wallethub.json", function(cityData) {
+d3.json("static/js/city_master_wallethub3.json", function(cityData) {
 
     for (var i = 0; i < 100; i++) {
  
      var coord = [cityData[i].latitude, cityData[i].longitude]
-    console.log(coord)
+
     // Color-code by magnitude
 
-    if (cityData[i].costs > 80) {
+    if (cityData[i].hap_entertainment > 80) {
         var color = "maroon"
       } 
-      else if (cityData[i].costs >= 60 && cityData[i].costs <=80) {
+      else if (cityData[i].hap_entertainment >= 60 && cityData[i].hap_entertainment <=80) {
         var color = "red"
       } 
-      else if (cityData[i].costs >= 40 && cityData[i].costs <=60) {
+      else if (cityData[i].hap_entertainment >= 40 && cityData[i].hap_entertainment <=60) {
         var color = "orange"
       }
-      else if (cityData[i].costs >= 20 && cityData[i].costs <=40) {
+      else if (cityData[i].hap_entertainment >= 20 && cityData[i].hap_entertainment <=40) {
         var color = "yellow"
       }
       else {
@@ -40,6 +40,6 @@ d3.json("static/js/city_master_wallethub.json", function(cityData) {
          color: "white",
          fillColor: color,
          radius: (100000)
-       }).bindPopup("<h3> City: " + cityData[i].city + "</h3> <hr> <h4> Cost Rank: " + cityData[i].costs + "</h4>").addTo(myMap);
+       }).bindPopup("<p> City: " + cityData[i].city + "<p> <p> Happiness Rank: " + cityData[i].hap_entertainment + "</p>").addTo(myMap3);
     }
 });

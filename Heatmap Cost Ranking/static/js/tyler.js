@@ -1,7 +1,7 @@
 // Create a map object
 var myMap = L.map("map", {
   center: [37.09, -95.71],
-  zoom: 5
+  zoom: 3
 });
 
 L.tileLayer("https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}", {
@@ -183,5 +183,4 @@ for (var i = 0; i < cities.length; i++) {
     // This will make our marker's size proportionate to its population
     radius: radius(cities[i].income)
   }).bindPopup("<h1>" + cities[i].State + "</h1> <hr> <h3>House hold Income: " + cities[i].income + "</h3><p>" + radius + "</p>" ).addTo(myMap);
-  console.log(mycircles.getRadius())
 }

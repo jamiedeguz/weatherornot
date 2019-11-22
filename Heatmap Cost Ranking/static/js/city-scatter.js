@@ -144,9 +144,9 @@ function updateToolTip(chosenXAxis, chosenYAxis, circlesGroup) {
       return (`${hairData.city}<br>${label} ${hairData[chosenXAxis]} <br> ${yLabel} ${hairData[chosenYAxis]}`);
     });
 
-
+  
   circlesGroup.call(toolTip);
-
+  
   circlesGroup.on("mouseover", function(data) {
     toolTip.show(data);
   })
@@ -206,7 +206,7 @@ d3.csv("static/js/city_master_wallethub.csv", function(err, hairData) {
     .call(leftAxis);
 
   // append initial circles
-  var color = "blue"
+
   var circlesGroup = chartGroup.selectAll("circle")
     .data(hairData)
     .enter()
@@ -215,6 +215,28 @@ d3.csv("static/js/city_master_wallethub.csv", function(err, hairData) {
     .attr("cy", d => yLinearScale(d[chosenYAxis]) )
     .attr("r", 20)
     .attr("opacity", ".5")
+    .attr("fill", color = function (d) {
+      xvalue = d[chosenXAxis]
+      yvalue = d[chosenYAxis]
+      product = xvalue * yvalue
+      console.log(product)
+      if (product > 6400) {
+       color = "maroon"
+      } 
+      else if (product >= 3600 && product <=6400) {
+        color = "red"
+      } 
+      else if (product>= 1600 && product <=3600) {
+        color = "orange"
+      }
+      else if (product>= 400 && product <=1600) {
+        color = "yellow"
+      }
+      else {
+        color = "green"
+      }
+      return(color)
+  })
 
   // Create group for  twho x- axis and y-axis labels
   var labelXGroup = chartGroup.append("g")

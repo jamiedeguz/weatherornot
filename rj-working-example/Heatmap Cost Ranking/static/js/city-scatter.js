@@ -137,7 +137,7 @@ function updateToolTip(chosenXAxis, chosenYAxis, circlesGroup) {
 }
 
 // Retrieve data from the CSV file and execute everything below
-d3.csv("assets/data/city_master_wallethub.csv", function(err, hairData) {
+d3.csv("static/js/city_master_wallethub.csv", function(err, hairData) {
   //if (err) throw err;
  
   // parse data

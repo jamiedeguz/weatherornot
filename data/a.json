@@ -1,0 +1,1 @@
+[{"city":{"id":14256,"name":"Azadshahr","findname":"AZADSHAHR","country":"IR","coord":{"lon":48.570728,"lat":34.790878},"zoom":10},"time":1554462304,"main":{"temp":287.07,"pressure":1022,"humidity":71,"temp_min":284.15,"temp_max":289.15},"wind":{"speed":4.1,"deg":340},"clouds":{"all":90},"weather":[{"id":804,"main":"Clouds","description":"overcast clouds","icon":"04d"}]}]

@@ -12,10 +12,6 @@ L.tileLayer("https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={
 }).addTo(myMap);
 
 
-function radius(radius) {
-  return radius * 2;
-}
-
 var cities = [
   {'State': 'Alabama',
   'location': [32.859482801854035, -86.84384983545773],
@@ -50,9 +46,9 @@ var cities = [
  {'State': 'Georgia',
   'location': [33.04387886633166, -83.69556997085414],
   'income': 52977.0},
- {'State': 'Hawaii',
-  'location': [21.988660087837854, -160.24180725675674],
-  'income': 74923.0},
+//  {'State': 'Hawaii',
+//   'location': [21.988660087837854, -160.24180725675674],
+//   'income': 74923.0},
  {'State': 'Idaho',
   'location': [44.53219026706227, -114.86423627002975],
   'income': 50985.0},
@@ -169,18 +165,82 @@ var cities = [
   'income': 60938.0},
  {'State': 'Wisconsin',
   'location': [44.105610487233996, -89.53277944893613],
-  'income': 56759.0}];
+  'income': 56759.0}
+];
 
-
-
-// Loop through the cities array and create one marker for each city object
+var incometop5 = []
 for (var i = 0; i < cities.length; i++) {
-  mycircles = L.circle(cities[i].location, {
+  incometop5.push(parseInt(cities[i].income))
+}
+var incometop5 = incometop5.sort(function(a, b){return b-a})
+var incometop5 = [incometop5[0], incometop5[1], incometop5[2], incometop5[3], incometop5[4]];
+
+for (var i = 0; i < cities.length; i++) {
+    mycircles = L.circleMarker(cities[i].location, {
     fillOpacity: 0.75,
     color: "white",
     fillColor: "purple",
-    // Setting our circle's radius equal to the output of our markerSize function
-    // This will make our marker's size proportionate to its population
-    radius: radius(cities[i].income)
-  }).bindPopup("<h1>" + cities[i].State + "</h1> <hr> <h3>House hold Income: " + cities[i].income + "</h3><p>" + radius + "</p>" ).addTo(myMap);
-}
+    radius: cities[i].income / 4800,
+    riseOnHover: false
+  }).bindPopup("<h3>" + cities[i].State + "</h1> <hr> <h5>Avg Household Income: " + cities[i].income + "</h5>", {maxWidth: 200}).addTo(myMap);
+  };
+
+  for (var i = 0; i < cities.length; i++) {
+    if (incometop5.includes(cities[i].income)) {
+      mycircles = L.circleMarker(cities[i].location, {
+        fillOpacity: 0.75,
+        color: "white",
+        fillColor: "red",
+        radius: cities[i].income / 4800,
+        riseOnHover: true
+      }).bindPopup("<h3>" + cities[i].State + "</h1> <hr> <h5>Avg Household Income: " + cities[i].income + "</h5>", {maxWidth: 200}).addTo(myMap); 
+    }
+  }
+
+
+  var legend = L.control({position: 'bottomleft'});
+  legend.onAdd = function (map) {
+
+  var div = L.DomUtil.create('div', 'info legend');
+  labels = ['<strong>Categories</strong>'],
+  categories = ['Road Surface','Signage','Line Markings','Roadside Hazards','Other'];
+
+  for (var i = 0; i < categories.length; i++) {
+
+          div.innerHTML += 
+          labels.push(
+              '<i class="circle" style="background:' + getColor(categories[i]) + '"></i> ' +
+          (categories[i] ? categories[i] : '+'));
+
+      }
+      div.innerHTML = labels.join('<br>');
+  return div;
+  };
+
+  var legend = L.control({ position: "bottomright" });
+  legend.onAdd = function() {
+    var div = L.DomUtil.create("div", "tylers-legend");
+    var limits = ["Top 5 Avg. Household Income"];
+    var colors = ["Red"]
+    var labels = [];
+
+
+    // Add min & max
+    var legendInfo = 
+      "<div class=\"labels\">" +
+        "<div class=\"min\">" + limits[0] + "</div>"
+      "</div>";
+
+    div.innerHTML = legendInfo;
+
+    limits.forEach(function(limit, index) {
+      labels.push("<li style=\"background-color: " + colors[index] + "\"></li>");
+    });
+
+    div.innerHTML += "<ul>" + labels.join("") + "</ul>";
+    return div;
+  };
+
+  // Adding legend to the map
+  legend.addTo(myMap);
+

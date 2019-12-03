@@ -36,6 +36,13 @@ footer {
   text-align:center;
 }
 
+#map .tylers-legend {
+  padding: 5px;
+  text-align: center;
+  border-style: solid;
+  background-color: white;
+}
+
 /* remove default margin and padding from body */
 body {
   padding: 0;

@@ -5,13 +5,13 @@ import pandas as pd
 
 client = pymongo.MongoClient('mongodb://localhost:27017')
 db = client.city_master_wallethub_db
-data = db.city_dict.find()[0]
+data = db.city_dict.find()
 df = pd.DataFrame(data)
 df = df.drop(columns='_id')
 html_table = df.to_html(index=False, escape=False)
 
 
-data = db.linear_regression.find()[0]
+data = db.linear_regression.find()
 df = pd.DataFrame(data)
 df = df.drop(columns='_id')
 html_table2 = df.to_html(index=False, escape=False)

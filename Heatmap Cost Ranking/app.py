@@ -5,10 +5,16 @@ import pandas as pd
 
 client = pymongo.MongoClient('mongodb://localhost:27017')
 db = client.city_master_wallethub_db
-data = db.items.find()[0]
+data = db.city_dict.find()[0]
 df = pd.DataFrame(data)
 df = df.drop(columns='_id')
 html_table = df.to_html(index=False, escape=False)
+
+
+data = db.linear_regression.find()[0]
+df = pd.DataFrame(data)
+df = df.drop(columns='_id')
+html_table2 = df.to_html(index=False, escape=False)
 #if data table does not show up, you need to run Ron's file: (weatherornot\rj-working-example) 
 
 app = Flask(__name__)
@@ -19,7 +25,7 @@ def index():
 
 @app.route("/data")
 def thedata():
-    return render_template("data.html", html_table=html_table)
+    return render_template("data.html", html_table=html_table, html_table2=html_table2)
 if __name__ == "__main__":
     app.debug = True
     app.run()
